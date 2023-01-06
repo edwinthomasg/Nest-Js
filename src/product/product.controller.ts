@@ -10,17 +10,21 @@ import {
   Body,
   ParseIntPipe,
   UsePipes,
+  UseInterceptors,
 } from '@nestjs/common';
 import { Request, Response } from 'express';
+import { LoggingInterceptor } from './logging.interceptor';
 import { productSchema } from './product-joi.dto';
 import { ProductDto } from './product.dto';
 import { ProductService } from './product.service';
+import { TransformPipe } from './transform.pipe';
 import { ValidationPipe } from './validation.pipe';
 
 @Controller('product')
+@UseInterceptors(LoggingInterceptor)
 export class ProductController {
   constructor(private productService: ProductService) {}
-
+  
   @Get()
   async getAllProducts(@Res() res: Response) {
     const data = await this.productService.getAllProducts();
@@ -51,11 +55,12 @@ export class ProductController {
 
   @Put(':id')
   async updateProduct(
-    @Param() params: any,
+    @Param('id', new TransformPipe()) id: string,
     @Body() body: any,
     @Res() res: Response,
   ) {
-    const status = await this.productService.updateProduct(params.id, body);
+    const status = await this.productService.updateProduct(id, body);
     res.send('updated').status(status);
   }
+
 }

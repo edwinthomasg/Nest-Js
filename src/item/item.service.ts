@@ -10,7 +10,7 @@ export class ItemService {
         const items = ["shoes","shirts","pants","sliders"]
         return items.map(item => item.toUpperCase())
     }
-
+    
     async getProducts(){
         const response = await this.productService.getAllProducts()
         return response 

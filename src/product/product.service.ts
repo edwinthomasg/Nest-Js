@@ -10,10 +10,10 @@ export class ProductService {
     async getAllProducts() {
         const response = await axios.get("https://jsonplaceholder.typicode.com/posts")
 
-        return this.adminService.getAdminProfile()
+        return response.data
       }
       async getProduct(id: number){
-        console.log("Search Id : ",id)
+        console.log("search id : ",id)
         const response = await axios.get(`https://jsonplaceholder.typicode.com/posts/${id}`)
         return response.data
       }

@@ -7,7 +7,8 @@ import { ItemService } from './item.service';
 @Module({
     imports: [ProductModule],
     controllers: [ItemController],
-    providers: [ItemService]
+    providers: [ItemService],
+    exports: [ItemService]
 })
 export class ItemModule implements NestModule {
     configure(consumer: MiddlewareConsumer) {

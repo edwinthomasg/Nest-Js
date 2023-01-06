@@ -1,4 +1,5 @@
-import { Global, MiddlewareConsumer, Module, NestModule, RequestMethod } from '@nestjs/common';
+import { Global, MiddlewareConsumer, Module, NestModule, RequestMethod, forwardRef } from '@nestjs/common';
+import { BlogModule } from 'src/blog/blog.module';
 import { ProductController } from 'src/product/product.controller';
 import { AdminController } from './admin.controller';
 import { AdminMiddleware } from './admin.middleware';

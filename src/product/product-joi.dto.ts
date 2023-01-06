@@ -1,8 +1,8 @@
-import Joi from "joi";
+const Joi = require("joi")
 
 export const productSchema = Joi.object({
-    id: Joi.number().required(),
     userId: Joi.number().required(),
+    id: Joi.number().required(),
     title: Joi.string().required(),
     body: Joi.string().required()
 })
