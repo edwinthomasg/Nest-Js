@@ -14,10 +14,13 @@ import { BlogService } from './blog/blog.service';
 import { BlogModule } from './blog/blog.module';
 import { APP_PIPE } from '@nestjs/core';
 import { ItemValidationPipe } from './item/item-validation.pipe';
+import { CustomersController } from './customers/customers.controller';
+import { CustomersModule } from './customers/customers.module';
+import { CustomersService } from './customers/customers.service';
 
 @Module({
-  imports: [ProductModule, ItemModule, AdminModule, BlogModule],
-  controllers: [UserController, AppController, ItemController, AdminController, BlogController],
-  providers: [AppService, ItemService, AdminService, ProductService, BlogService],
+  imports: [ProductModule, ItemModule, AdminModule, BlogModule, CustomersModule],
+  controllers: [UserController, AppController, ItemController, AdminController, BlogController, CustomersController],
+  providers: [AppService, ItemService, AdminService, ProductService, BlogService, CustomersService],
 })
 export class AppModule {}
