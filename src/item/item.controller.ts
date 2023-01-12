@@ -6,6 +6,7 @@ import {
   Req,
   Res,
   UseFilters,
+  ValidationPipe,
 } from '@nestjs/common';
 import { ForbiddenException } from 'src/admin/forbidden.exception';
 import { GlobalException } from 'src/global.exception';
@@ -14,6 +15,7 @@ import { ItemDto } from './item.dto';
 import { ItemService } from './item.service';
 import { Response } from 'express';
 import { ItemValidationPipe } from './item-validation.pipe';
+
 
 @Controller('item')
 export class ItemController {
@@ -31,7 +33,7 @@ export class ItemController {
     return this.itemService.getProducts();
   }
   @Post('products')
-  addProductFromItem(@Body(new ItemValidationPipe()) body: ItemDto, @Res() res: Response) {
+  addProductFromItem(@Body(new ItemValidationPipe(), new ValidationPipe()) body: ItemDto, @Res() res: Response) {
     res.send(body)
   }
 }

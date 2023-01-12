@@ -5,7 +5,7 @@ import { ProductService } from 'src/product/product.service';
 export class ItemService {
     @Inject(ProductService)
     private readonly productService:ProductService
-
+    
     getItems(){
         const items = ["shoes","shirts","pants","sliders"]
         return items.map(item => item.toUpperCase())

@@ -1,9 +1,10 @@
-import { createParamDecorator, ExecutionContext } from "@nestjs/common";
+import { createParamDecorator, ExecutionContext, HttpException } from "@nestjs/common";
+import { HttpStatusCode } from "axios";
 
 export const Customer = createParamDecorator(
-    (data: unknown, context: ExecutionContext) => {
+    (data: boolean, context: ExecutionContext) => {
         const request = context.switchToHttp().getRequest();
-        console.log(request.res)
-        return request.user;
+        if(!data) throw new HttpException('No Access', HttpStatusCode.Forbidden)
+        return request.body
     }
 )
