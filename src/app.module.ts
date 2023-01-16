@@ -21,11 +21,14 @@ import { MongooseModule } from '@nestjs/mongoose'
 import { MovieModule } from './movie/movie.module';
 import { EcommerceController } from './ecommerce/ecommerce.controller';
 import { EcommerceModule } from './ecommerce/ecommerce.module';
-
+import { ConfigModule } from '@nestjs/config';
+import { config } from './config';
+import { TypeOrmModule } from '@nestjs/typeorm'
+import { DatabaseConfig } from './database.config';
 
 
 @Module({
-  imports: [MongooseModule.forRoot('mongodb://localhost/ecommerces'), MovieModule, EcommerceModule],
+  imports: [MongooseModule.forRoot('mongodb://localhost/db'), MovieModule, EcommerceModule, ConfigModule.forRoot({ isGlobal: true, load: [config] })],
   controllers: [AppController],
   providers: [AppService],
 })
