@@ -20,6 +20,7 @@ export class Ecommerce {
         size: { type: String }
       }))
     specs: Record<string, any>;
+
 }
 
 export const EcommerceSchema = SchemaFactory.createForClass(Ecommerce)

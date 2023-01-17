@@ -1,6 +1,6 @@
-import { Injectable } from '@nestjs/common';
+import { Get, Injectable } from '@nestjs/common';
 import { ConfigService } from '@nestjs/config';
-import { EcommerceDto } from './ecommerce.dto';
+import { EcommerceDto, UpdateDto } from './ecommerce.dto';
 import { EcommerceRepository } from './ecommerce.respository';
 import { Ecommerce } from './schemas/ecommerce.schems';
 
@@ -13,15 +13,21 @@ export class EcommerceService {
     }
     
     async getProduct(id: string): Promise<Ecommerce[]>{
+        console.log("port number from env files : ",this.configService.get('PORT_NUMBER'))
         console.log("Secret Token : ",this.configService.get('SECRET_TOKEN'))
+        let { username, password } = this.configService.get("database")
+        console.log("database secrets : ",username, password)
         return this.productRepository.getProduct({_id: id})
     }
     
     async getProducts(): Promise<Ecommerce[]>{
+        console.log(this.configService.get("db.sqlite"))
+        console.log(this.configService.get("db.sql", "default value")) //if no key matches
+        console.log(this.configService.get("database.host"), this.configService.get("database.port"))
         return this.productRepository.getProducts({})
     }
 
-    async updateById(id: string, body: EcommerceDto){
+    async updateById(id: string, body: UpdateDto){
         return this.productRepository.updateById({_id: id}, body)
     }
 

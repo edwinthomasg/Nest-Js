@@ -25,11 +25,16 @@ import { ConfigModule } from '@nestjs/config';
 import { config } from './config';
 import { TypeOrmModule } from '@nestjs/typeorm'
 import { DatabaseConfig } from './database.config';
+import { ConfigService } from '@nestjs/config';
+import { configYaml } from './config/config.yaml';
+import { databaseConfig } from './config/database';
 
 
 @Module({
-  imports: [MongooseModule.forRoot('mongodb://localhost/db'), MovieModule, EcommerceModule, ConfigModule.forRoot({ isGlobal: true, load: [config] })],
+  imports: [ConfigModule.forRoot({ isGlobal: true, expandVariables: true, load: [config, configYaml, databaseConfig], cache: true }), MongooseModule.forRoot('mongodb://localhost/db'), MovieModule, EcommerceModule],
   controllers: [AppController],
   providers: [AppService],
 })
 export class AppModule {}
+
+// IsGlobal Config : Config module available to all the modules, no need to import each and every time

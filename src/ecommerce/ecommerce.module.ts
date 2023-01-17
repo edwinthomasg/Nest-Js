@@ -1,4 +1,5 @@
 import { Module } from '@nestjs/common';
+import { ConfigModule } from '@nestjs/config';
 import { MongooseModule } from '@nestjs/mongoose';
 import { EcommerceController } from './ecommerce.controller';
 import { EcommerceRepository } from './ecommerce.respository';
@@ -6,7 +7,7 @@ import { EcommerceService } from './ecommerce.service';
 import { Ecommerce, EcommerceSchema } from './schemas/ecommerce.schems';
 
 @Module({
-  imports: [MongooseModule.forFeature([{name: Ecommerce.name, schema: EcommerceSchema}])],
+  imports: [MongooseModule.forFeature([{name: Ecommerce.name, schema: EcommerceSchema}]), ConfigModule],
   controllers: [EcommerceController],
   providers: [EcommerceService, EcommerceRepository]
 })

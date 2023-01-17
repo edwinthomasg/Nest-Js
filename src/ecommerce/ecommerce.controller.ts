@@ -1,15 +1,23 @@
-import { Body, Controller, Delete, Get, Param, Post, Put, ValidationPipe } from '@nestjs/common';
-import { EcommerceDto } from './ecommerce.dto';
+import { Body, ClassSerializerInterceptor, Controller, Delete, Get, Param, ParseArrayPipe, Post, Put, Query, UseInterceptors, ValidationPipe } from '@nestjs/common';
+import { EcommerceDto, UpdateDto } from './ecommerce.dto';
 import { EcommerceService } from './ecommerce.service';
+import { Products } from './products.dto';
 import { Ecommerce } from './schemas/ecommerce.schems';
 
 @Controller('ecommerce')
 export class EcommerceController {
     constructor(private readonly ecommerceService: EcommerceService) {}
 
+    @Get("/query")
+    getByQuery(@Query('id', new ParseArrayPipe({ items: Number , separator: ','})) id: number[]){
+        console.log(id)
+        return id
+    }
+
     // Creta a new movie document
     @Post()
-    async createMovie(@Body(new ValidationPipe({ disableErrorMessages: false, whitelist: true, forbidNonWhitelisted: true })) body: EcommerceDto): Promise<Ecommerce>{
+    async createMovie(@Body(new ValidationPipe({ disableErrorMessages: false, whitelist: true, forbidNonWhitelisted: true, transform: true })) body: EcommerceDto): Promise<Ecommerce>{
+        console.log("body : ",typeof body.price)
         return this.ecommerceService.createProduct(body)
     }
     
@@ -27,7 +35,7 @@ export class EcommerceController {
 
     // Update particular movie by specified id
     @Put(':id')
-    async updateById(@Param('id') id: string, @Body() body: EcommerceDto){
+    async updateById(@Param('id') id: string, @Body(new ValidationPipe()) body: UpdateDto){
         return this.ecommerceService.updateById(id, body)
     }
 
@@ -35,5 +43,19 @@ export class EcommerceController {
     @Delete(':id')
     async deleteById(@Param('id') id: string){
         return this.ecommerceService.deleteById(id)
+    }
+
+    @UseInterceptors(ClassSerializerInterceptor)
+    @Get("special/data")
+    getSpecialData(): Products{
+        return new Products({
+            "specs": {
+                "color": "white",
+                "size": "10inch"
+            },
+            "productType": "complex",
+            "name": "smartphone",
+            "price": 20000,
+        })
     }
 }
