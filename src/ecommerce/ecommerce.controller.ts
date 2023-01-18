@@ -1,4 +1,4 @@
-import { Body, ClassSerializerInterceptor, Controller, Delete, Get, Param, ParseArrayPipe, Post, Put, Query, UseInterceptors, ValidationPipe } from '@nestjs/common';
+import { Body, CacheInterceptor, ClassSerializerInterceptor, Controller, Delete, Get, Param, ParseArrayPipe, Post, Put, Query, UseInterceptors, ValidationPipe } from '@nestjs/common';
 import { EcommerceDto, UpdateDto } from './ecommerce.dto';
 import { EcommerceService } from './ecommerce.service';
 import { Products } from './products.dto';
@@ -7,6 +7,11 @@ import { Ecommerce } from './schemas/ecommerce.schems';
 @Controller('ecommerce')
 export class EcommerceController {
     constructor(private readonly ecommerceService: EcommerceService) {}
+    // @UseInterceptors(CacheInterceptor)
+    @Get("/query/filter")
+    async getProductsByQueryFilter(@Query('product_type') productType: string): Promise<Ecommerce[]>{
+        return await this.ecommerceService.getProductsByQueryFilter(productType)
+    }
 
     @Get("/query")
     getByQuery(@Query('id', new ParseArrayPipe({ items: Number , separator: ','})) id: number[]){
@@ -48,14 +53,6 @@ export class EcommerceController {
     @UseInterceptors(ClassSerializerInterceptor)
     @Get("special/data")
     getSpecialData(): Products{
-        return new Products({
-            "specs": {
-                "color": "white",
-                "size": "10inch"
-            },
-            "productType": "complex",
-            "name": "smartphone",
-            "price": 20000,
-        })
+       return this.ecommerceService.getSpecialData()
     }
 }

@@ -28,10 +28,11 @@ import { DatabaseConfig } from './database.config';
 import { ConfigService } from '@nestjs/config';
 import { configYaml } from './config/config.yaml';
 import { databaseConfig } from './config/database';
+import { DependencyModule } from './dependency/dependency.module';
 
 
 @Module({
-  imports: [ConfigModule.forRoot({ isGlobal: true, expandVariables: true, load: [config, configYaml, databaseConfig], cache: true }), MongooseModule.forRoot('mongodb://localhost/db'), MovieModule, EcommerceModule],
+  imports: [ConfigModule.forRoot({ isGlobal: true, expandVariables: true, load: [config, configYaml, databaseConfig], cache: true }), MongooseModule.forRoot('mongodb://localhost/db'), MovieModule, EcommerceModule, DependencyModule],
   controllers: [AppController],
   providers: [AppService],
 })
