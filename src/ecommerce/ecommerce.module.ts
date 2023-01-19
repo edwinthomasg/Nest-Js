@@ -1,11 +1,14 @@
-import { CacheModule, Module } from '@nestjs/common';
+import { CacheModule, Logger, Module } from '@nestjs/common';
 import { ConfigModule } from '@nestjs/config';
+import { EventEmitterModule } from '@nestjs/event-emitter';
 import { MongooseModule } from '@nestjs/mongoose';
+import { ScheduleModule } from '@nestjs/schedule';
 import { EcommerceController } from './ecommerce.controller';
 import { EcommerceRepository } from './ecommerce.respository';
 import { EcommerceService } from './ecommerce.service';
 import { Products } from './products.dto';
 import { Ecommerce, EcommerceSchema } from './schemas/ecommerce.schems';
+
 
 class OverideEcommerceService extends EcommerceService {
   getSpecialData(): Products {
@@ -27,13 +30,15 @@ class OverideEcommerceService extends EcommerceService {
       { name: Ecommerce.name, schema: EcommerceSchema },
     ]),
     ConfigModule,
-    CacheModule.register()
+    CacheModule.register(),
+    EventEmitterModule.forRoot(),
+    ScheduleModule.forRoot()
   ],
   controllers: [EcommerceController],
   providers: [{
     provide: EcommerceService, // Identifier or Token for dependency injection
     useClass: EcommerceService // Instance
-  }, EcommerceRepository],
+  }, EcommerceRepository, Logger],
 })
 export class EcommerceModule {}
 
