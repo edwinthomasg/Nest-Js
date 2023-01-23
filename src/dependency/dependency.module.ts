@@ -1,3 +1,4 @@
+import { HttpModule } from '@nestjs/axios';
 import { Module } from '@nestjs/common';
 import { MulterModule } from '@nestjs/platform-express';
 import { DependencyController } from './dependency.controller';
@@ -8,7 +9,7 @@ import { value } from './use';
 const devMode = false;
 
 @Module({
-  imports: [MulterModule.register({ dest: "./uploads"})],
+  imports: [MulterModule.register({ dest: "./uploads"}), HttpModule],
   controllers: [DependencyController],
   providers: [
     {

@@ -1,3 +1,4 @@
+import { HttpModule } from '@nestjs/axios';
 import { MiddlewareConsumer, Module, NestModule } from '@nestjs/common';
 import { ProductModule } from 'src/product/product.module';
 import { ItemController } from './item.controller';
@@ -5,7 +6,7 @@ import { ItemMiddleware } from './item.middleware';
 import { ItemService } from './item.service';
   
 @Module({
-    imports: [ProductModule],
+    imports: [ProductModule, HttpModule],
     controllers: [ItemController],
     providers: [ItemService],
     exports: [ItemService]

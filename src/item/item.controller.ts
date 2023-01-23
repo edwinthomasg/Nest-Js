@@ -15,11 +15,18 @@ import { ItemDto } from './item.dto';
 import { ItemService } from './item.service';
 import { Response } from 'express';
 import { ItemValidationPipe } from './item-validation.pipe';
+import { Observable } from 'rxjs';
+import { AxiosResponse } from 'axios';
 
 
-@Controller('item')
+@Controller('items')
 export class ItemController {
   constructor(private itemService: ItemService) {}
+
+  @Get('api/data')
+  getApiData(): Observable<AxiosResponse>{
+    return this.itemService.getApiData()
+  }
 
   @Get()
   @UseFilters(GlobalExceptionFilter)
@@ -36,4 +43,6 @@ export class ItemController {
   addProductFromItem(@Body(new ItemValidationPipe(), new ValidationPipe()) body: ItemDto, @Res() res: Response) {
     res.send(body)
   }
+
+ 
 }

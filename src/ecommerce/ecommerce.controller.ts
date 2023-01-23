@@ -1,4 +1,7 @@
-import { Body, CacheInterceptor, ClassSerializerInterceptor, Controller, Delete, Get, Param, ParseArrayPipe, Post, Put, Query, UseInterceptors, ValidationPipe } from '@nestjs/common';
+import { Body, CacheInterceptor, ClassSerializerInterceptor, Controller, Delete, Get, Param, ParseArrayPipe, Post, Put, Query, Req, Res, UseInterceptors, ValidationPipe } from '@nestjs/common';
+import { AxiosResponse } from 'axios';
+import { Request, Response } from 'express';
+import { Observable } from 'rxjs';
 import { EcommerceDto, UpdateDto } from './ecommerce.dto';
 import { EcommerceService } from './ecommerce.service';
 import { Products } from './products.dto';
@@ -7,6 +10,12 @@ import { Ecommerce } from './schemas/ecommerce.schems';
 @Controller('ecommerce')
 export class EcommerceController {
     constructor(private readonly ecommerceService: EcommerceService) {}
+
+    @Get('api/data')
+    getApiData(): Observable<AxiosResponse> {
+        return this.ecommerceService.getApiData()
+    }
+
     // @UseInterceptors(CacheInterceptor)
     @Get("/query/filter")
     async getProductsByQueryFilter(@Query('product_type') productType: string): Promise<Ecommerce[]>{
@@ -34,8 +43,10 @@ export class EcommerceController {
 
     // Get all movide documents
     @Get()
-    async getProducts(): Promise<Ecommerce[]>{
-        return this.ecommerceService.getProducts()
+    async getProducts(@Req() req: Request, @Res() res: Response){
+        console.log("cookies : ",req.cookies['cookie'])
+        res.cookie("cookie","cookieresponse")
+        res.send(await this.ecommerceService.getProducts())
     }
 
     // Update particular movie by specified id
@@ -55,4 +66,5 @@ export class EcommerceController {
     getSpecialData(): Products{
        return this.ecommerceService.getSpecialData()
     }
+    
 }

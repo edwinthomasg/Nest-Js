@@ -1,5 +1,8 @@
+import { HttpService } from '@nestjs/axios';
 import { Get, Injectable } from '@nestjs/common';
 import { ConfigService } from '@nestjs/config';
+import { AxiosResponse } from 'axios';
+import { Observable } from 'rxjs';
 import { EcommerceDto, UpdateDto } from './ecommerce.dto';
 import { EcommerceRepository } from './ecommerce.respository';
 import { Products } from './products.dto';
@@ -10,7 +13,14 @@ export class EcommerceService {
   constructor(
     private readonly productRepository: EcommerceRepository,
     private configService: ConfigService,
+    private apiService: HttpService
   ) {
+  }
+
+  getApiData(): Observable<AxiosResponse>{
+    const res = this.apiService.get("http://localhost:3300/data")
+    console.log(Object.keys(res))
+    return res
   }
 
   async createProduct(product: EcommerceDto): Promise<Ecommerce> {
@@ -28,14 +38,15 @@ export class EcommerceService {
     return this.productRepository.getProduct({ _id: id });
   }
 
-  async getProducts(): Promise<Ecommerce[]> {
-    console.log(this.configService.get('db.sqlite'));
-    console.log(this.configService.get('db.sql', 'default value')); //if no key matches
-    console.log(
-      this.configService.get('database.host'),
-      this.configService.get('database.port'),
-    );
-    return this.productRepository.getProducts({});
+  async getProducts(){
+    // console.log(this.configService.get('db.sqlite'));
+    // console.log(this.configService.get('db.sql', 'default value')); //if no key matches
+    // console.log(
+    //   this.configService.get('database.host'),
+    //   this.configService.get('database.port'),
+    // );
+
+    return await this.productRepository.getProducts({});
   }
 
   async updateById(id: string, body: UpdateDto) {
