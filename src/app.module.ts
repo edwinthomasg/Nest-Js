@@ -31,9 +31,12 @@ import { databaseConfig } from './config/database';
 import { DependencyModule } from './dependency/dependency.module';
 import { VersionService } from './version/version.service';
 import { VersionModule } from './version/version.module';
+import { TestController } from './test/test.controller';
+import { TestService } from './test/test.service';
+import { TestModule } from './test/test.module';
 
 @Module({
-  imports: [ConfigModule.forRoot({ isGlobal: true, expandVariables: true, load: [config, configYaml, databaseConfig], cache: true }), MongooseModule.forRoot('mongodb://localhost/db'), MovieModule, EcommerceModule, DependencyModule, VersionModule],
+  imports: [ConfigModule.forRoot({ isGlobal: true, expandVariables: true, load: [config, configYaml, databaseConfig], cache: true }), MongooseModule.forRoot('mongodb://localhost/db'), MovieModule, EcommerceModule, DependencyModule, VersionModule, TestModule, CustomersModule, AdminModule],
   controllers: [AppController],
   providers: [AppService],
 })

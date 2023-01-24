@@ -18,15 +18,16 @@ import { GlobalExceptionFilter } from 'src/global.filter';
 import { AuthGuard } from '../blog/auth.guard';
 
 @Controller('admin')
-@UseGuards(AuthGuard)
+// @UseGuards(AuthGuard)
 // @UseFilters(ForbiddenFilter) // Controller level usage of filter
 export class AdminController {
   constructor(private adminService: AdminService) {}
 
   @Get()
-  @UseFilters(ForbiddenFilter) // Route level usage of filter
+  // @UseFilters(ForbiddenFilter) // Route level usage of filter
   getAdminProfile(@Req() req: Request): string {
     const { auth } = req.query;
+    console.log(auth)
     if (auth === 'true') return this.adminService.getAdminProfile();
     // throw new HttpException('Not Authorized', HttpStatusCode.Unauthorized)
     else throw new ForbiddenException(); //Custom exception thrown

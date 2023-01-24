@@ -17,7 +17,7 @@ export class CustomersController {
     sortByAge(@Query('age') age: number){
         return this.customerService.sortByAge(age)
     }
-    @Get(":id")
+    @Get("data/:id")
     @UseFilters(NotFoundFilter)
     @UseInterceptors(CustomerInterceptor)
     getUserById(@Param('id', ParseIntPipe, ) id: number): any{

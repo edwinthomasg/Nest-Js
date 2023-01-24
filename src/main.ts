@@ -1,5 +1,4 @@
-import { NestFactory } from '@nestjs/core';
-import { ForbiddenFilter } from './admin/forbidden.filter';
+import { NestFactory } from '@nestjs/core'
 import { AppModule } from './app.module';
 import { GlobalExceptionFilter } from './global.filter';
 import { ItemValidationPipe } from './item/item-validation.pipe';
@@ -13,6 +12,8 @@ import { MyLogger } from './version/console.logger';
 import * as cookieParser from 'cookie-parser'
 import { NestExpressApplication } from '@nestjs/platform-express';
 import { join } from 'path';
+import { ForbiddenFilter } from './test/filters/forbidden.filter';
+import helmet from 'helmet'
 
 async function bootstrap() {
   const app = await NestFactory.create<NestExpressApplication>(AppModule, 
@@ -22,8 +23,10 @@ async function bootstrap() {
     //   // logger: console
     //   // logger: new CustomLogger()
     //   // logger: new MyLogger()
+    cors: true
     }
     ); // logger: console
+  app.enableCors()
   const configService = app.get(ConfigService)
   app.use(ItemMiddleware)
   app.useGlobalPipes(new ValidationPipe())
@@ -42,6 +45,8 @@ async function bootstrap() {
   app.use(cookieParser()) //use cookies
   app.setBaseViewsDir(join(__dirname, "..", "views"))
   app.setViewEngine('ejs')
-  await app.listen(portNumber);
+  // app.useGlobalFilters(new ForbiddenFilter())
+  app.use(helmet())
+  await app.listen(3030);
 }
 bootstrap();

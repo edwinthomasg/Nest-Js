@@ -6,4 +6,15 @@
     <body>
         <p>Profile Page</p>
     </body>
+    <script type="text/javascript">
+        const eventSource = new EventSource('http://localhost:3000/v1/dependency/sse');
+        eventSource.onmessage = ({ data, intervalNumber }) => {
+            console.log(data,intervalNumber)
+          const message = document.createElement('b');
+          message.innerText = 'Hi ' + data 
+          const breakTag = document.createElement('br')
+          message.appendChild(breakTag)
+          document.body.appendChild(message);
+        }
+    </script>
 </html>

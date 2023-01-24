@@ -141,10 +141,14 @@ export class DependencyController {
     res.render(page);
   }
 
+
   @Sse('sse')
   sse(): Observable<MessageEvent> {
-    return interval(1000).pipe(map((num: number) => ({
-        data: 'hello'+num
-    })))
+    return interval(1000).pipe(map((num: number) => {
+      console.log(num)
+      return ({
+        data: `edwin, at interval ${num}`,
+    })
+    }))
   }
 }
