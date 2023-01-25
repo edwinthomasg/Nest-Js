@@ -23,7 +23,7 @@ async function bootstrap() {
     //   // logger: console
     //   // logger: new CustomLogger()
     //   // logger: new MyLogger()
-    cors: true
+    // cors: true
     }
     ); // logger: console
   app.enableCors()

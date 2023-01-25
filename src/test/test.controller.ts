@@ -8,6 +8,7 @@ import {
   Put,
   UseFilters,
   UseInterceptors,
+  ValidationPipe,
 } from '@nestjs/common';
 import { HttpStatusCode } from 'axios';
 import { createCipheriv, randomBytes, scrypt } from 'crypto';
@@ -44,7 +45,7 @@ export class TestController {
 
   @Post('users')
   @UseFilters(ForbiddenFilter)
-  async createUser(@Body() user: UserDto) {
+  async createUser(@Body(new ValidationPipe()) user: UserDto) {
     console.log(user)
     // throw new HttpException("mmm", HttpStatusCode.Forbidden)
     return await this.testService.createUserData(user);

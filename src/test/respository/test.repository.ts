@@ -7,7 +7,7 @@ export class UserRepository {
   constructor(@InjectModel(User.name) private userModel: Model<UserDocument>) {}
 
   async getUsersData(filterQuery: FilterQuery<User>): Promise<User[]> {
-    return await this.userModel.find(filterQuery);
+    return await this.userModel.find(filterQuery, {_id: 0, __v: 0});
   }
 
   async getUserData(filterQuery: FilterQuery<User>){
