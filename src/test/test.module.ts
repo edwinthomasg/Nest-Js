@@ -5,6 +5,7 @@ import {
   RequestMethod,
 } from '@nestjs/common';
 import { MongooseModule } from '@nestjs/mongoose';
+import { DynamicModules } from 'src/dynamic/dynamic.module';
 import { UserMiddleware } from './middlewares/user.middleware';
 import { UserRepository } from './respository/test.repository';
 import { User, UserSchema } from './schemas/user.schema';
@@ -13,10 +14,11 @@ import { TestService } from './test.service';
 
 @Module({
   imports: [
-    MongooseModule.forFeature([{ name: User.name, schema: UserSchema }]),
+    MongooseModule.forFeature([{ name: User.name, schema: UserSchema }])
   ],
   controllers: [TestController],
   providers: [TestService, UserRepository],
+  exports:[TestService]
 })
 export class TestModule implements NestModule {
   configure(consumer: MiddlewareConsumer) {

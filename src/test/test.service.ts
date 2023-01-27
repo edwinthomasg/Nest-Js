@@ -1,9 +1,9 @@
-import { Injectable } from '@nestjs/common';
+import { Injectable, Scope } from '@nestjs/common';
 import { UserDto } from './dto/User.dto';
 import { UserRepository } from './respository/test.repository';
 import { User } from './schemas/user.schema';
 
-@Injectable()
+@Injectable({ scope: Scope.DEFAULT})
 export class TestService {
   constructor(private userRepository: UserRepository) {}
 

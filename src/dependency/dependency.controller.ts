@@ -35,6 +35,7 @@ import { interval, map, Observable } from 'rxjs';
 import { AxiosResponse } from 'axios';
 import { stringify } from 'flatted';
 import { Page } from './page.decorator';
+import { ProvidersService } from 'src/providers/providers.service';
 
 interface MessageEvent {
     data: string | object;
@@ -47,6 +48,7 @@ export class DependencyController {
     private overideDependency: OverideDependencyService,
     @Inject('SERVICE') private service: DependencyService,
     private httpService: HttpService,
+    private configService: ProvidersService
   ) {}
 
   @Get('axios/data')
@@ -60,6 +62,7 @@ export class DependencyController {
 
   @Get()
   getDependencyItems(): Products {
+    console.log(this.configService.getConfigData())
     console.log(
       'dependency override : ',
       this.overideDependency.getDependencyItems(),

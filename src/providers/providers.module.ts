@@ -1,4 +1,5 @@
 import { Module } from '@nestjs/common';
+import { TestModule } from 'src/test/test.module';
 import { ConfigData } from './interfaces/interface.type';
 import { ProvidersController } from './providers.controller';
 import { ProvidersService } from './providers.service';
@@ -26,7 +27,7 @@ const classDefinition = {
 };
 
 @Module({
-  imports: [],
+  imports: [TestModule],
   controllers: [ProvidersController],
   providers: [
     // {
@@ -57,5 +58,6 @@ const classDefinition = {
         useExisting: ProvidersService
     }
   ],
+  exports: [ProvidersService]
 })
 export class ProvidersModule {}

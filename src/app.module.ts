@@ -17,13 +17,13 @@ import { ItemValidationPipe } from './item/item-validation.pipe';
 import { CustomersController } from './customers/customers.controller';
 import { CustomersModule } from './customers/customers.module';
 import { CustomersService } from './customers/customers.service';
-import { MongooseModule } from '@nestjs/mongoose'
+import { MongooseModule } from '@nestjs/mongoose';
 import { MovieModule } from './movie/movie.module';
 import { EcommerceController } from './ecommerce/ecommerce.controller';
 import { EcommerceModule } from './ecommerce/ecommerce.module';
 import { ConfigModule } from '@nestjs/config';
 import { config } from './config';
-import { TypeOrmModule } from '@nestjs/typeorm'
+import { TypeOrmModule } from '@nestjs/typeorm';
 import { DatabaseConfig } from './database.config';
 import { ConfigService } from '@nestjs/config';
 import { configYaml } from './config/config.yaml';
@@ -35,10 +35,41 @@ import { TestController } from './test/test.controller';
 import { TestService } from './test/test.service';
 import { TestModule } from './test/test.module';
 import { ProvidersModule } from './providers/providers.module';
-
+import { DynamicController } from './dynamic/dynamic.controller';
+import { DynamicModules } from './dynamic/dynamic.module';
+import { DependencyBModule } from './dependency-b/dependency-b.module';
+import { DependencyAModule } from './dependency-a/dependency-a.module';
 
 @Module({
-  imports: [ConfigModule.forRoot({ isGlobal: true, expandVariables: true, load: [config, configYaml, databaseConfig], cache: true }), MongooseModule.forRoot('mongodb://localhost/db'), MovieModule, EcommerceModule, DependencyModule, VersionModule, TestModule, CustomersModule, AdminModule, ProvidersModule],
+  imports: [
+    ConfigModule.forRoot({
+      isGlobal: true,
+      expandVariables: true,
+      load: [config, configYaml, databaseConfig],
+      cache: true,
+    }),
+    MongooseModule.forRoot('mongodb://localhost/db'),
+    MovieModule,
+    EcommerceModule,
+    DependencyModule,
+    VersionModule,
+    TestModule,
+    CustomersModule,
+    AdminModule,
+    ProvidersModule,
+    // DynamicModules.register({ folder: './config', file: "./movie.yaml" }),
+    DynamicModules.forRootAsync({
+      useFactory: () => {
+        return {
+          folder: './config',
+          file: './movie.yaml'
+        }
+      }
+    }),
+    DependencyAModule,
+    DependencyBModule,
+    
+  ],
   controllers: [AppController],
   providers: [AppService],
 })

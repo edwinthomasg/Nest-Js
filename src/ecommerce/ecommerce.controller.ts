@@ -9,7 +9,9 @@ import { Ecommerce } from './schemas/ecommerce.schems';
 
 @Controller('ecommerce')
 export class EcommerceController {
-    constructor(private readonly ecommerceService: EcommerceService) {}
+    constructor(private readonly ecommerceService: EcommerceService) {
+        console.log(EcommerceService)
+    }
 
     @Get('api/data')
     getApiData(): Observable<AxiosResponse> {

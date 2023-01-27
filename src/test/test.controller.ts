@@ -1,8 +1,10 @@
 import {
   Body,
   Controller,
+  forwardRef,
   Get,
   HttpException,
+  Inject,
   Param,
   Post,
   Put,
@@ -22,10 +24,13 @@ import { IdPipe } from './pipes/number.pipe';
 import { User } from './schemas/user.schema';
 import { TestService } from './test.service';
 import * as bcrypt from 'bcrypt'
+import { DependencyService } from 'src/dependency/dependency.service';
 
 @Controller('test')
 export class TestController {
-  constructor(private testService: TestService) {}
+  constructor(private testService: TestService) {
+    console.log("test service : ",TestService)
+  }
 
   @Get('users')
   async getUsersData(): Promise<User[]> {
@@ -46,7 +51,6 @@ export class TestController {
   @Post('users')
   @UseFilters(ForbiddenFilter)
   async createUser(@Body(new ValidationPipe()) user: UserDto) {
-    console.log(user)
     // throw new HttpException("mmm", HttpStatusCode.Forbidden)
     return await this.testService.createUserData(user);
   }
