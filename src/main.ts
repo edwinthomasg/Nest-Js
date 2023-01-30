@@ -1,4 +1,4 @@
-import { NestFactory } from '@nestjs/core'
+import { LazyModuleLoader, NestFactory } from '@nestjs/core'
 import { AppModule } from './app.module';
 import { GlobalExceptionFilter } from './global.filter';
 import { ItemValidationPipe } from './item/item-validation.pipe';
@@ -47,6 +47,16 @@ async function bootstrap() {
   app.setViewEngine('ejs')
   // app.useGlobalFilters(new ForbiddenFilter())
   app.use(helmet())
+  app.enableShutdownHooks()
+  const lazyLoader = app.get(LazyModuleLoader)
+  const {SampleModule} = await import('./sample/sample.module')
+  const dev = true
+  if(dev)
+  await lazyLoader.load(() => {
+    console.log("modules loaded")
+    return SampleModule
+  })
+  
   await app.listen(3030);
 }
 bootstrap();

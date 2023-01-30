@@ -1,4 +1,5 @@
 import { DynamicModule, Module } from "@nestjs/common";
+import { FileModule } from "src/file/file.module";
 import { TestModule } from "src/test/test.module";
 import { DynamicController } from "./dynamic.controller";
 import { ConfigurableModuleClass } from "./dynamic.definition";
@@ -10,7 +11,7 @@ export interface DynamicOptions {
 }
 
 @Module({
-  imports: [TestModule],
+  imports: [TestModule, FileModule],
   controllers: [DynamicController],
   providers: [DynamicService],
   exports: [DynamicService]

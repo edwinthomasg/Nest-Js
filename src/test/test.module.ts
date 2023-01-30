@@ -21,6 +21,9 @@ import { TestService } from './test.service';
   exports:[TestService]
 })
 export class TestModule implements NestModule {
+  constructor(){
+    console.log("intitialized test module")
+  }
   configure(consumer: MiddlewareConsumer) {
     consumer
       .apply(UserMiddleware)

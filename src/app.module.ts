@@ -37,8 +37,18 @@ import { TestModule } from './test/test.module';
 import { ProvidersModule } from './providers/providers.module';
 import { DynamicController } from './dynamic/dynamic.controller';
 import { DynamicModules } from './dynamic/dynamic.module';
-import { DependencyBModule } from './dependency-b/dependency-b.module';
-import { DependencyAModule } from './dependency-a/dependency-a.module';
+import { FileController } from './file/file.controller';
+import { FileService } from './file/file.service';
+import { FileModule } from './file/file.module';
+import { FolderController } from './folder/folder.controller';
+import { FolderService } from './folder/folder.service';
+import { FolderModule } from './folder/folder.module';
+import { SampleController } from './sample/sample.controller';
+import { SampleService } from './sample/sample.service';
+import { SampleModule } from './sample/sample.module';
+import { LazyController } from './lazy/lazy.controller';
+import { LazyService } from './lazy/lazy.service';
+import { LazyModule } from './lazy/lazy.module';
 
 @Module({
   imports: [
@@ -52,6 +62,7 @@ import { DependencyAModule } from './dependency-a/dependency-a.module';
     MovieModule,
     EcommerceModule,
     DependencyModule,
+    BlogModule,
     VersionModule,
     TestModule,
     CustomersModule,
@@ -66,13 +77,18 @@ import { DependencyAModule } from './dependency-a/dependency-a.module';
         }
       }
     }),
-    DependencyAModule,
-    DependencyBModule,
-    
+    FileModule,
+    FolderModule,
+    SampleModule.register({name: "Edwin"}),
+    LazyModule
   ],
-  controllers: [AppController],
-  providers: [AppService],
+  controllers: [AppController, LazyController],
+  providers: [AppService, LazyService],
 })
-export class AppModule {}
+export class AppModule {
+  constructor(){
+    console.log("intitialized app module")
+  }
+}
 
 // IsGlobal Config : Config module available to all the modules, no need to import each and every time
