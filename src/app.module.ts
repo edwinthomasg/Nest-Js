@@ -49,16 +49,29 @@ import { SampleModule } from './sample/sample.module';
 import { LazyController } from './lazy/lazy.controller';
 import { LazyService } from './lazy/lazy.service';
 import { LazyModule } from './lazy/lazy.module';
+import { ClientModule } from './user/client/client.module';
+import { EmployeeModule } from './user/employee/employee.module';
+import { StudentModule } from './user/student/student.module';
+import { MongooseModelsModule } from './user/client/schemas/mongoose-model.module';
+import { jsonConfig } from './config/json.config';
+import * as Joi from 'joi';
+
 
 @Module({
   imports: [
     ConfigModule.forRoot({
       isGlobal: true,
       expandVariables: true,
-      load: [config, configYaml, databaseConfig],
+      load: [config, configYaml, databaseConfig, jsonConfig],
       cache: true,
+      envFilePath: './config/.db.env',
+      validationSchema: Joi.object({
+        uri: Joi.string()
+      })
+      // ignoreEnvFile: true
     }),
-    MongooseModule.forRoot('mongodb://localhost/db'),
+    MongooseModelsModule,
+    MongooseModule.forRoot('mongodb://localhost/database'),
     MovieModule,
     EcommerceModule,
     DependencyModule,
@@ -80,10 +93,11 @@ import { LazyModule } from './lazy/lazy.module';
     FileModule,
     FolderModule,
     SampleModule.register({name: "Edwin"}),
-    LazyModule
-  ],
-  controllers: [AppController, LazyController],
-  providers: [AppService, LazyService],
+    LazyModule,
+    ClientModule,
+    EmployeeModule,
+    StudentModule,
+  ]
 })
 export class AppModule {
   constructor(){

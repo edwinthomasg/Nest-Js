@@ -1,6 +1,8 @@
-import { Controller, forwardRef, Get, Inject } from '@nestjs/common';
+import { Body, Controller, forwardRef, Get, Inject, Post } from '@nestjs/common';
 import { FileService } from 'src/file/file.service';
+import { FolderDto } from './dto/folder.dto';
 import { FolderService } from './folder.service';
+import { Folder } from './schemas/folder.schema';
 
 @Controller('folder')
 export class FolderController {
@@ -18,4 +20,10 @@ export class FolderController {
     getFileName(){
         return this.fileService.getFileName()
     }
+
+    @Post()
+    async createFolder(@Body() folder: FolderDto): Promise<Folder>{
+        return this.folderService.createFolder(folder)
+    }
+
 }

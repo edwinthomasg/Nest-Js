@@ -9,4 +9,5 @@ export class DatabaseConfig {
     console.log(this.configService.get('database'))
     return this.configService.get('database');
   }
+  
 }
