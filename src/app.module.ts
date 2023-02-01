@@ -52,8 +52,10 @@ import { LazyModule } from './lazy/lazy.module';
 import { ClientModule } from './user/client/client.module';
 import { EmployeeModule } from './user/employee/employee.module';
 import { StudentModule } from './user/student/student.module';
-import { MongooseModelsModule } from './user/client/schemas/mongoose-model.module';
 import { jsonConfig } from './config/json.config';
+import { ValidationModule } from './validation/validation.module';
+import { CronModule } from './cron/cron.module';
+import { LoggerModule } from './logger/logger.module';
 import * as Joi from 'joi';
 
 
@@ -70,7 +72,6 @@ import * as Joi from 'joi';
       })
       // ignoreEnvFile: true
     }),
-    MongooseModelsModule,
     MongooseModule.forRoot('mongodb://localhost/database'),
     MovieModule,
     EcommerceModule,
@@ -94,9 +95,12 @@ import * as Joi from 'joi';
     FolderModule,
     SampleModule.register({name: "Edwin"}),
     LazyModule,
-    ClientModule,
-    EmployeeModule,
-    StudentModule,
+    // ClientModule,
+    // EmployeeModule,
+    // StudentModule,
+    ValidationModule,
+    CronModule,
+    LoggerModule,
   ]
 })
 export class AppModule {

@@ -8,16 +8,20 @@ import { ConfigService } from '@nestjs/config';
 import session from 'express-session';
 import { Logger, VersioningType } from '@nestjs/common';
 import { CustomLogger } from './custom.logger';
-import { MyLogger } from './version/console.logger';
+// import { MyLogger } from './version/console.logger';
 import * as cookieParser from 'cookie-parser'
 import { NestExpressApplication } from '@nestjs/platform-express';
 import { join } from 'path';
 import { ForbiddenFilter } from './test/filters/forbidden.filter';
 import helmet from 'helmet'
+import { MyLogger } from './validation/logger/my-log.logger';
+import { LoggerServices } from './logger/logger.service';
 
 async function bootstrap() {
   const app = await NestFactory.create<NestExpressApplication>(AppModule, 
     {
+      bufferLogs: true //make all intial logs loaded
+      // logger: new LoggerServices()
       // logger: false
     //   // logger: ['warn', 'error', 'log']
     //   // logger: console
@@ -27,6 +31,7 @@ async function bootstrap() {
     }
     ); // logger: console
   app.enableCors()
+  app.useLogger(new LoggerServices());
   const configService = app.get(ConfigService)
   app.use(ItemMiddleware)
   app.useGlobalPipes(new ValidationPipe())
@@ -38,8 +43,10 @@ async function bootstrap() {
   //   saveUninitialized: false
   // }))
   app.enableVersioning({
+    // type: VersioningType.URI,
     type: VersioningType.URI,
-    defaultVersion: '1'
+    // header: 'version',
+    // defaultVersion: '1'
   })
   // app.useLogger(app.get(MyLogger)) // global custom logger declaration
   app.use(cookieParser()) //use cookies

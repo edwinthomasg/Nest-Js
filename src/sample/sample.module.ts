@@ -11,9 +11,11 @@ interface sampleOption{
 
 @Module({})
 export class SampleModule implements NestModule{
+
     constructor(){
         console.log("intitialized sample module")
       }
+
     static register(sample:sampleOption): DynamicModule{
         console.log(sample)
         return{
@@ -27,4 +29,5 @@ export class SampleModule implements NestModule{
     configure(consumer: MiddlewareConsumer) {
         consumer.apply(SampleMiddleware).forRoutes({path: 'v1/sample', method: RequestMethod.GET})
     }
+    
 }

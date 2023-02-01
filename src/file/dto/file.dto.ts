@@ -1,4 +1,4 @@
-import { IsDate, IsString } from "class-validator";
+import { IsDate, IsOptional, IsString } from "class-validator";
 
 export class FileDto{
     @IsString()
@@ -14,5 +14,6 @@ export class FileDto{
     folder: string
 
     @IsDate()
+    @IsOptional()
     createdAt: Date
 }

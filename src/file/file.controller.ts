@@ -2,6 +2,7 @@ import { Body, Controller, forwardRef, Get, Inject, OnModuleInit, Param, Post, U
 import { ContextIdFactory, ModuleRef, REQUEST } from '@nestjs/core';
 import { FolderService } from 'src/folder/folder.service';
 import { FileDto } from './dto/file.dto';
+import { ParamsId } from './dto/id.dto';
 import { FileService } from './file.service';
 import { FileGuard } from './guards/file.guard';
 import { File } from './schemas/file.schema';
@@ -44,13 +45,13 @@ export class FileController implements OnModuleInit {
     }
 
     @Post()
-    createFile(@Body() file: FileDto): Promise<File>{
+    createFile(@Body(new ValidationPipe({whitelist: true, forbidNonWhitelisted: true})) file: FileDto): Promise<File>{
         return this.fileService.createFile(file)
     }
 
     @Get(":id")
-    transformToPrimitive(@Param('id', new ValidationPipe({transform: true})) id: number){
-        console.log(typeof id)
+    transformToPrimitive(@Param('id', new ValidationPipe({disableErrorMessages: true})) id: ParamsId){
+        console.log("type : ",typeof id)
         return id
     }
 }
