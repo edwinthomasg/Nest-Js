@@ -57,6 +57,7 @@ import { ValidationModule } from './validation/validation.module';
 import { CronModule } from './cron/cron.module';
 import { LoggerModule } from './logger/logger.module';
 import * as Joi from 'joi';
+import { EventEmitterModule } from '@nestjs/event-emitter';
 
 
 @Module({
@@ -67,6 +68,7 @@ import * as Joi from 'joi';
       load: [config, configYaml, databaseConfig, jsonConfig],
       cache: true,
       envFilePath: './config/.db.env',
+      // envFilePath: './config/.config.env',
       validationSchema: Joi.object({
         uri: Joi.string()
       })
@@ -101,6 +103,10 @@ import * as Joi from 'joi';
     ValidationModule,
     CronModule,
     LoggerModule,
+    EventEmitterModule.forRoot({
+      wildcard: true,
+      delimiter: '.'
+    })
   ]
 })
 export class AppModule {

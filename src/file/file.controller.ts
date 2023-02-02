@@ -33,7 +33,7 @@ export class FileController implements OnModuleInit {
     @Get()
     getFileName(){
         const cid = ContextIdFactory.getByRequest(this.req)
-        console.log(cid)
+        console.log("cid : ",cid)
 
         // console.log("module : ",this.moduleRef.get(FileService))
         return this.fileService.getFileName()

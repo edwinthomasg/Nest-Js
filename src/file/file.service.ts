@@ -22,7 +22,7 @@ export class FileService implements OnModuleInit {
         console.log("json config : ",this.configService.get("domain"))
         console.log("sub domain : ",this.configService.get("subdomain.domain"))
         console.log(`${this.parent?.constructor?.name}`)
-        console.log(await this.fileModel.find({}).populate("folder"))
+        // console.log(await this.fileModel.find({}).populate("folder"))
         return "config.yaml"
     }
     async createFile(file: FileDto): Promise<File>{

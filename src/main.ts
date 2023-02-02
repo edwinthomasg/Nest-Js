@@ -5,7 +5,7 @@ import { ItemValidationPipe } from './item/item-validation.pipe';
 import { ItemMiddleware } from './item/item.middleware';
 import { ValidationPipe } from './customers/validation.pipe';
 import { ConfigService } from '@nestjs/config';
-import session from 'express-session';
+import * as session from 'express-session';
 import { Logger, VersioningType } from '@nestjs/common';
 import { CustomLogger } from './custom.logger';
 // import { MyLogger } from './version/console.logger';
@@ -16,11 +16,13 @@ import { ForbiddenFilter } from './test/filters/forbidden.filter';
 import helmet from 'helmet'
 import { MyLogger } from './validation/logger/my-log.logger';
 import { LoggerServices } from './logger/logger.service';
+import * as compression from 'compression'
+
 
 async function bootstrap() {
   const app = await NestFactory.create<NestExpressApplication>(AppModule, 
     {
-      bufferLogs: true //make all intial logs loaded
+      // bufferLogs: true //make all intial logs loaded
       // logger: new LoggerServices()
       // logger: false
     //   // logger: ['warn', 'error', 'log']
@@ -31,7 +33,7 @@ async function bootstrap() {
     }
     ); // logger: console
   app.enableCors()
-  app.useLogger(new LoggerServices());
+  // app.useLogger(new LoggerServices());
   const configService = app.get(ConfigService)
   app.use(ItemMiddleware)
   app.useGlobalPipes(new ValidationPipe())
@@ -50,8 +52,8 @@ async function bootstrap() {
   })
   // app.useLogger(app.get(MyLogger)) // global custom logger declaration
   app.use(cookieParser()) //use cookies
-  app.setBaseViewsDir(join(__dirname, "..", "views"))
-  app.setViewEngine('ejs')
+  // app.setBaseViewsDir(join(__dirname, "..", "views"))
+  // app.setViewEngine('ejs')
   // app.useGlobalFilters(new ForbiddenFilter())
   app.use(helmet())
   app.enableShutdownHooks()
@@ -63,7 +65,17 @@ async function bootstrap() {
     console.log("modules loaded")
     return SampleModule
   })
-  
+  // app.use(compression({
+  //   filter: () => true,
+  //   threshold: 0
+  // }))
+  app.use(session({
+    secret: 'my-secret',
+    resave: false,
+    saveUninitialized: false,
+  }),)
+  app.setBaseViewsDir(join(__dirname,"../","view"))
+  app.setViewEngine('ejs')
   await app.listen(3030);
 }
 bootstrap();
