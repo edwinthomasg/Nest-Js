@@ -29,13 +29,13 @@ async function bootstrap() {
     //   // logger: console
     //   // logger: new CustomLogger()
     //   // logger: new MyLogger()
-    // cors: true
+    cors: true
     }
     ); // logger: console
   app.enableCors()
   // app.useLogger(new LoggerServices());
   const configService = app.get(ConfigService)
-  app.use(ItemMiddleware)
+  // app.use(ItemMiddleware)
   app.useGlobalPipes(new ValidationPipe())
   const portNumber = configService.get('PORT_NUMBER')
   // app.useGlobalFilters(new ForbiddenFilter(), new GlobalExceptionFilter())
@@ -74,7 +74,9 @@ async function bootstrap() {
     resave: false,
     saveUninitialized: false,
   }),)
-  app.setBaseViewsDir(join(__dirname,"../","view"))
+  // app.setBaseViewsDir(join(__dirname,"../","views"))
+  // app.setViewEngine('ejs')
+  app.setBaseViewsDir(join(__dirname,"../","register"))
   app.setViewEngine('ejs')
   await app.listen(3030);
 }

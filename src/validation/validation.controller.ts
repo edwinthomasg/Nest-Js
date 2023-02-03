@@ -166,7 +166,19 @@ export class ValidationController {
   @Render('index')
   getTemplate(){
     return {
-      message: "hello"
+      name: "Edwin",
+      message: "Greetings"
     }
+  }
+
+  @Get("dynamic")
+  getDynamicTemplates(@Res() res: Response){
+      res.render(this.validationService.getDynamicTemplate(),{
+        title: "dynamic",
+        page: {
+          title: "Home Page",
+          content: "This is home page"
+        }
+      })
   }
 }

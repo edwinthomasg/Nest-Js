@@ -82,10 +82,10 @@ export class EcommerceRepository {
      //      this.loggerService.log("greeting others ...!")
      // }
 
-     @Cron('45 * * * * * ')
-     handleCron(){
-          this.loggerService.log('called when second is 45')
-     }
+     // @Cron('45 * * * * * ')
+     // handleCron(){
+     //      this.loggerService.log('called when second is 45')
+     // }
 
      // @Interval(10000)
      // logAfter10(){

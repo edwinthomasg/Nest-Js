@@ -58,4 +58,9 @@ export class ValidationService {
       .pipe(map((res) => res.data));
     return await lastValueFrom(observable);
   }
+
+  getDynamicTemplate(){
+    return "profile"
+  }
+  
 }

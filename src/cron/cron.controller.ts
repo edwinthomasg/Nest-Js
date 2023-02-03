@@ -21,10 +21,10 @@ export class CronController {
         return "hello"
     }
 
-    @Cron('5 * * * * *', {name: "everyfive"})
-    executeTask(){
-        console.log("every 5 seconds in a minute")
-    }
+    // @Cron('5 * * * * *', {name: "everyfive"})
+    // executeTask(){
+    //     console.log("every 5 seconds in a minute")
+    // }
 
     @Get('stop-task')
     stopTask(){

@@ -58,6 +58,7 @@ import { CronModule } from './cron/cron.module';
 import { LoggerModule } from './logger/logger.module';
 import * as Joi from 'joi';
 import { EventEmitterModule } from '@nestjs/event-emitter';
+import { RegisterModule } from './techniques/registeration/register/register.module';
 
 
 @Module({
@@ -106,7 +107,8 @@ import { EventEmitterModule } from '@nestjs/event-emitter';
     EventEmitterModule.forRoot({
       wildcard: true,
       delimiter: '.'
-    })
+    }),
+    RegisterModule
   ]
 })
 export class AppModule {
