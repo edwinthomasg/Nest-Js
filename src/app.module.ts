@@ -59,6 +59,9 @@ import { LoggerModule } from './logger/logger.module';
 import * as Joi from 'joi';
 import { EventEmitterModule } from '@nestjs/event-emitter';
 import { RegisterModule } from './techniques/registeration/register/register.module';
+import { UserModule } from './user-management/user/user.module';
+import { DbModule } from './user-management/db/db.module';
+import { AuthModule } from './user-management/auth/auth.module';
 
 
 @Module({
@@ -108,8 +111,11 @@ import { RegisterModule } from './techniques/registeration/register/register.mod
       wildcard: true,
       delimiter: '.'
     }),
-    RegisterModule
-  ]
+    RegisterModule,
+    UserModule,
+    DbModule,
+    AuthModule
+  ],
 })
 export class AppModule {
   constructor(){
