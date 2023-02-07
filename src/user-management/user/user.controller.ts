@@ -12,13 +12,14 @@ export class UserController {
     @Get()
     @UseGuards(JwtAuthGuard)
     getPrivateData(@Req() req: Request): any {
-        console.log(req.user)
+        console.log("req : ",req.user)
         return req.user
     }
 
     @Post("login")
     @UseGuards(LocalAuthGuard)
     login(@Req() req: Request){
+        console.log("body : ",req.body)
         return this.authService.login(req.body)
     }
 }

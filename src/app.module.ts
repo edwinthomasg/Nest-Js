@@ -59,9 +59,14 @@ import { LoggerModule } from './logger/logger.module';
 import * as Joi from 'joi';
 import { EventEmitterModule } from '@nestjs/event-emitter';
 import { RegisterModule } from './techniques/registeration/register/register.module';
-import { UserModule } from './user-management/user/user.module';
+// import { UserModule } from './user-management/user/user.module';
 import { DbModule } from './user-management/db/db.module';
-import { AuthModule } from './user-management/auth/auth.module';
+import { AppAuthModule } from './authentication/app-auth/app-auth.module';
+import { AuthModule } from './authentication/auth/auth.module';
+import { UserModule } from './authentication/user/user.module';
+import { GatewayModule } from './gateway/gateway.module';
+import { EventGateway } from './gateway/gateway';
+
 
 
 @Module({
@@ -114,8 +119,11 @@ import { AuthModule } from './user-management/auth/auth.module';
     RegisterModule,
     UserModule,
     DbModule,
-    AuthModule
+    AppAuthModule,
+    AuthModule,
+    GatewayModule
   ],
+  providers: [EventGateway]
 })
 export class AppModule {
   constructor(){

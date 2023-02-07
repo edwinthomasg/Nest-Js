@@ -18,7 +18,7 @@ export class AuthService {
 
 async login(user: any) {
     console.log("user auth service : ",user)
-    const payload = { username: user.username, sub: user.password };
+    const payload = { username: user.username, password: user.password };
     console.log("payload : ",user)
     const hashedPass  = await bcrypt.hash(user.password, 10)
     console.log(hashedPass)
