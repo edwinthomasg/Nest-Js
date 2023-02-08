@@ -64,9 +64,6 @@ import { DbModule } from './user-management/db/db.module';
 import { AppAuthModule } from './authentication/app-auth/app-auth.module';
 import { AuthModule } from './authentication/auth/auth.module';
 import { UserModule } from './authentication/user/user.module';
-import { GatewayModule } from './gateway/gateway.module';
-import { EventGateway } from './gateway/gateway';
-
 
 
 @Module({
@@ -121,9 +118,8 @@ import { EventGateway } from './gateway/gateway';
     DbModule,
     AppAuthModule,
     AuthModule,
-    GatewayModule
-  ],
-  providers: [EventGateway]
+    
+  ]
 })
 export class AppModule {
   constructor(){
